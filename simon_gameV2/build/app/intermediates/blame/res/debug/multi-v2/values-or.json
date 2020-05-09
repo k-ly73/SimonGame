@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/JensonTran/flutter-workspace/Simon-Game-Flutter-App/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
+            "outputFile": "/Users/JensonTran/flutter-workspace/SimonGame/simon_gameV2/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-or/values-or.xml",
             "map": [
                 {
                     "source": "/Users/JensonTran/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/56fde3ec3077190f2a93fd569f5ffd25/res/values-or/values-or.xml",
