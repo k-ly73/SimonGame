@@ -5,21 +5,21 @@ class SimonContainer {
   final Color colour;
   final Function onPressed;
 
-  final _radius = BorderRadius.all(Radius.circular(30.0));
+  final radius = BorderRadius.all(Radius.circular(60.0));
 
   Container getDecoration() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: _radius,
+        borderRadius: radius,
         color: colour,
       ),
       child: FlatButton(
-        shape: RoundedRectangleBorder(borderRadius: _radius),
+        shape: RoundedRectangleBorder(borderRadius: radius),
         child: null,
         onPressed: onPressed,
       ),
-      width: 150.0,
-      height: 150.0,
+      width: 80.0,
+      height: 80.0,
     );
   }
 }

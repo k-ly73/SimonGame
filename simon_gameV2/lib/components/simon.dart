@@ -27,11 +27,11 @@ class Simon extends StatefulWidget {
 }
 
 class _SimonState extends State<Simon> {
-  int _levelNumber = 0;
-  double _greenOpacity = 1.0;
-  double _redOpacity = 1.0;
-  double _yellowOpacity = 1.0;
-  double _blueOpacity = 1.0;
+  int levelNumber = 0;
+  double greenOpacity = 1.0;
+  double redOpacity = 1.0;
+  double yellowOpacity = 1.0;
+  double blueOpacity = 1.0;
   bool _result = false;
 
   String _gameLabel = '';
@@ -54,28 +54,28 @@ class _SimonState extends State<Simon> {
   }
 
   void getStartStopButton() {
-    if (_levelNumber == 0) {
+    if (levelNumber == 0) {
       _button = Button(
           buttonLabel: 'Start Game',
           onPressed: () {
             setState(() {
               _result = true;
-              _levelNumber += 1;
-              _gameLabel = 'Level $_levelNumber';
+              levelNumber = levelNumber + 1;
+              _gameLabel = 'Level $levelNumber';
               _userSequence.clear();
               _simonSequence.add(Math.Random().nextInt(4) + 1);
               playSequence(_simonSequence);
               getStartStopButton();
             });
           }).getButton();
-    } else if (_levelNumber > 0) {
+    } else if (levelNumber > 0) {
       _button = Button(
           buttonLabel: 'Stop Game',
           onPressed: () {
             setState(() {
               stopSequence();
               _result = false;
-              _levelNumber = 0;
+              levelNumber = 0;
               _gameLabel = '';
               _simonSequence.clear();
               _userSequence.clear();
@@ -89,45 +89,45 @@ class _SimonState extends State<Simon> {
     switch (color) {
       case OpacityColor.green:
         setState(() {
-          _greenOpacity = _greenOpacity == 1.0 ? 0.0 : 1.0;
+          greenOpacity = greenOpacity == 0.0 ? 1.0 : 0.0;
         });
 
         Future.delayed(kDelayedOpacityDuration, () {
           setState(() {
-            _greenOpacity = _greenOpacity == 0.0 ? 1.0 : 0.0;
+            greenOpacity = greenOpacity == 0.0 ? 1.0 : 0.0;
           });
         });
         break;
       case OpacityColor.red:
         setState(() {
-          _redOpacity = _redOpacity == 1.0 ? 0.0 : 1.0;
+          redOpacity = redOpacity == 1.0 ? 0.0 : 1.0;
         });
 
         Future.delayed(kDelayedOpacityDuration, () {
           setState(() {
-            _redOpacity = _redOpacity == 0.0 ? 1.0 : 0.0;
+            redOpacity = redOpacity == 0.0 ? 1.0 : 0.0;
           });
         });
         break;
       case OpacityColor.yellow:
         setState(() {
-          _yellowOpacity = _yellowOpacity == 1.0 ? 0.0 : 1.0;
+          yellowOpacity = yellowOpacity == 1.0 ? 0.0 : 1.0;
         });
 
         Future.delayed(kDelayedOpacityDuration, () {
           setState(() {
-            _yellowOpacity = _yellowOpacity == 0.0 ? 1.0 : 0.0;
+            yellowOpacity = yellowOpacity == 0.0 ? 1.0 : 0.0;
           });
         });
         break;
       case OpacityColor.blue:
         setState(() {
-          _blueOpacity = _blueOpacity == 1.0 ? 0.0 : 1.0;
+          blueOpacity = blueOpacity == 1.0 ? 0.0 : 1.0;
         });
 
         Future.delayed(kDelayedOpacityDuration, () {
           setState(() {
-            _blueOpacity = _blueOpacity == 0.0 ? 1.0 : 0.0;
+            blueOpacity = blueOpacity == 0.0 ? 1.0 : 0.0;
           });
         });
         break;
@@ -160,16 +160,13 @@ class _SimonState extends State<Simon> {
     }
   }
 
-  /**
-  * TODO: stopSequence method will be implemented.
-  */
   void stopSequence() {}
 
   void nextSequence() {
     setState(() {
       _userSequence.clear();
       _result = true;
-      _levelNumber++;
+      levelNumber++;
       _simonSequence.add(Math.Random().nextInt(4) + 1);
     });
 
@@ -197,7 +194,7 @@ class _SimonState extends State<Simon> {
   void endGame() {
     setState(() {
       _result = false;
-      _levelNumber = 0;
+      levelNumber = 0;
       _gameLabel = 'Game Over';
       _simonSequence.clear();
       _userSequence.clear();
@@ -221,7 +218,7 @@ class _SimonState extends State<Simon> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                '${_result ? (_levelNumber == 0 ? '' : 'Level $_levelNumber') : _gameLabel}',
+                '${_result ? (levelNumber == 0 ? '' : 'Level $levelNumber') : _gameLabel}',
                 style: TextStyle(
                     fontSize: 50.0,
                     color: Colors.red,
@@ -233,7 +230,7 @@ class _SimonState extends State<Simon> {
                 children: <Widget>[
                   AnimatedOpacity(
                     duration: kAnimatedOpacityDuration,
-                    opacity: _greenOpacity,
+                    opacity: greenOpacity,
                     child: SimonContainer(
                       colour: Colors.green,
                       onPressed: () {
@@ -255,7 +252,7 @@ class _SimonState extends State<Simon> {
                   kWidthSpacer,
                   AnimatedOpacity(
                     duration: kAnimatedOpacityDuration,
-                    opacity: _redOpacity,
+                    opacity: redOpacity,
                     child: SimonContainer(
                       colour: Colors.red,
                       onPressed: () {
@@ -282,7 +279,7 @@ class _SimonState extends State<Simon> {
                 children: <Widget>[
                   AnimatedOpacity(
                     duration: kAnimatedOpacityDuration,
-                    opacity: _yellowOpacity,
+                    opacity: yellowOpacity,
                     child: SimonContainer(
                       colour: Colors.yellow,
                       onPressed: () {
@@ -302,7 +299,7 @@ class _SimonState extends State<Simon> {
                   kWidthSpacer,
                   AnimatedOpacity(
                     duration: kAnimatedOpacityDuration,
-                    opacity: _blueOpacity,
+                    opacity: blueOpacity,
                     child: SimonContainer(
                       colour: Colors.blue,
                       onPressed: () {
@@ -326,13 +323,6 @@ class _SimonState extends State<Simon> {
               kHeightSpacer,
               _button,
               kHeightSpacer,
-              GestureDetector(
-                child: Text(
-                  '*Go to creator\'s page of this app\'s icon',
-                  style: TextStyle(color: Colors.amber[900]),
-                ),
-                onTap: launcUrl,
-              )
             ],
           ),
         ),
@@ -340,16 +330,4 @@ class _SimonState extends State<Simon> {
     );
   }
 
-  /*
-  * Go to creator's page of this app's icon
-  */
-  void launcUrl() async {
-    const _url = 'https://www.flaticon.com/authors/creaticca-creative-agency';
-
-    if (await canLaunch(_url)) {
-      await launch(_url);
-    } else {
-      throw 'Could not launch $_url';
-    }
-  }
 }
