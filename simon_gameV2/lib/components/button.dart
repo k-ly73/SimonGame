@@ -8,7 +8,7 @@ class Button {
   Widget getButton() {
     return Container(
       child: RaisedButton(
-        splashColor: Colors.black54,
+        splashColor: Colors.white,
         child: Text(buttonLabel),
         onPressed: onPressed,
         elevation: 2.0,

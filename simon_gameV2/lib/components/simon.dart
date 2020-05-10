@@ -8,13 +8,6 @@ import 'package:simon/utilities/constants.dart';
 import 'dart:math' as Math;
 import 'dart:async';
 
-/* 
- ! SIMON SEQUENCE RULES, BUT IT CAN BE CHANGED IF YOU WISH
- * GREEN is defined as 1
- * RED is defined as 2
- * YELLOW is defined as 3
- * BLUE is defined as 4
-*/
 
 class Simon extends StatefulWidget {
   static final AudioCache player = AudioCache();
@@ -32,18 +25,18 @@ class _SimonState extends State<Simon> {
   double redOpacity = 1.0;
   double yellowOpacity = 1.0;
   double blueOpacity = 1.0;
-  bool _result = false;
+  bool result = false;
 
-  String _gameLabel = '';
-  List<int> _simonSequence = [];
-  List<int> _userSequence = [];
+  String gameLabel = '';
+  List<int> simonSequence = [];
+  List<int> userSequence = [];
   Widget _button;
 
   @override
   void initState() {
     super.initState();
     Simon.player.loadAll(
-        ['blue.mp3', 'yellow.mp3', 'green.mp3', 'red.mp3', 'wrong.mp3']);
+      ['blue.mp3', 'yellow.mp3', 'green.mp3', 'red.mp3', 'wrong.mp3']);
     getStartStopButton();
   }
 
@@ -59,26 +52,28 @@ class _SimonState extends State<Simon> {
           buttonLabel: 'Start Game',
           onPressed: () {
             setState(() {
-              _result = true;
+              result = true;
               levelNumber = levelNumber + 1;
-              _gameLabel = 'Level $levelNumber';
-              _userSequence.clear();
-              _simonSequence.add(Math.Random().nextInt(4) + 1);
-              playSequence(_simonSequence);
+              gameLabel = 'Level $levelNumber';
+              userSequence.clear();
+              simonSequence.add(Math.Random().nextInt(4) + 1);
+              playSequence(simonSequence);
               getStartStopButton();
             });
           }).getButton();
-    } else if (levelNumber > 0) {
+    } 
+    else if (levelNumber > 0) 
+    {
       _button = Button(
           buttonLabel: 'Stop Game',
           onPressed: () {
             setState(() {
               stopSequence();
-              _result = false;
+              result = false;
               levelNumber = 0;
-              _gameLabel = '';
-              _simonSequence.clear();
-              _userSequence.clear();
+              gameLabel = '';
+              simonSequence.clear();
+              userSequence.clear();
               getStartStopButton();
             });
           }).getButton();
@@ -89,7 +84,7 @@ class _SimonState extends State<Simon> {
     switch (color) {
       case OpacityColor.green:
         setState(() {
-          greenOpacity = greenOpacity == 0.0 ? 1.0 : 0.0;
+          greenOpacity = greenOpacity == 1.0 ? 0.0 : 1.0;
         });
 
         Future.delayed(kDelayedOpacityDuration, () {
@@ -160,28 +155,32 @@ class _SimonState extends State<Simon> {
     }
   }
 
-  void stopSequence() {}
+  void stopSequence() {
+    
+  }
 
   void nextSequence() {
     setState(() {
-      _userSequence.clear();
-      _result = true;
+      userSequence.clear();
+      result = true;
       levelNumber++;
-      _simonSequence.add(Math.Random().nextInt(4) + 1);
+      simonSequence.add(Math.Random().nextInt(4) + 1);
     });
 
     Future.delayed(Duration(seconds: 1), () {
-      playSequence(_simonSequence);
+      playSequence(simonSequence);
     });
   }
 
   bool checkSeqeunce() {
     int count = 0;
-    for (var sq in _simonSequence) {
-      for (var i = count; i < _userSequence.length;) {
-        if (sq != _userSequence[i]) {
+    for (var sq in simonSequence) {
+      for (var i = count; i < userSequence.length;) {
+        if (sq != userSequence[i]) {
           return false;
-        } else {
+        } 
+        else 
+        {
           count++;
           break;
         }
@@ -193,11 +192,11 @@ class _SimonState extends State<Simon> {
 
   void endGame() {
     setState(() {
-      _result = false;
+      result = false;
       levelNumber = 0;
-      _gameLabel = 'Game Over';
-      _simonSequence.clear();
-      _userSequence.clear();
+      gameLabel = 'Game Over';
+      simonSequence.clear();
+      userSequence.clear();
       getStartStopButton();
     });
     Simon.player.play('wrong.mp3');
@@ -209,16 +208,16 @@ class _SimonState extends State<Simon> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.purple,
           title: Text('Simon Game'),
         ),
         body: Container(
-          color: Colors.black87,
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                '${_result ? (levelNumber == 0 ? '' : 'Level $levelNumber') : _gameLabel}',
+                '${result ? (levelNumber == 0 ? '' : 'Level $levelNumber') : gameLabel}',
                 style: TextStyle(
                     fontSize: 50.0,
                     color: Colors.red,
@@ -234,13 +233,13 @@ class _SimonState extends State<Simon> {
                     child: SimonContainer(
                       colour: Colors.green,
                       onPressed: () {
-                        _userSequence.add(1);
+                        userSequence.add(1);
                         changeOpacity(OpacityColor.green);
                         Simon.play(SimonColor.green);
-                        if (_simonSequence.length == _userSequence.length) {
+                        if (simonSequence.length == userSequence.length) {
                           setState(() {
-                            _result = checkSeqeunce();
-                            if (_result)
+                            result = checkSeqeunce();
+                            if (result)
                               nextSequence();
                             else
                               endGame();
@@ -250,27 +249,6 @@ class _SimonState extends State<Simon> {
                     ).getDecoration(),
                   ),
                   kWidthSpacer,
-                  AnimatedOpacity(
-                    duration: kAnimatedOpacityDuration,
-                    opacity: redOpacity,
-                    child: SimonContainer(
-                      colour: Colors.red,
-                      onPressed: () {
-                        _userSequence.add(2);
-                        changeOpacity(OpacityColor.red);
-                        Simon.play(SimonColor.red);
-                        if (_simonSequence.length == _userSequence.length) {
-                          setState(() {
-                            _result = checkSeqeunce();
-                            if (_result)
-                              nextSequence();
-                            else
-                              endGame();
-                          });
-                        }
-                      },
-                    ).getDecoration(),
-                  ),
                 ],
               ),
               kHeightSpacer,
@@ -283,12 +261,12 @@ class _SimonState extends State<Simon> {
                     child: SimonContainer(
                       colour: Colors.yellow,
                       onPressed: () {
-                        _userSequence.add(3);
+                        userSequence.add(3);
                         changeOpacity(OpacityColor.yellow);
                         Simon.play(SimonColor.yellow);
-                        if (_simonSequence.length == _userSequence.length) {
-                          _result = checkSeqeunce();
-                          if (_result)
+                        if (simonSequence.length == userSequence.length) {
+                          result = checkSeqeunce();
+                          if (result)
                             nextSequence();
                           else
                             endGame();
@@ -303,13 +281,13 @@ class _SimonState extends State<Simon> {
                     child: SimonContainer(
                       colour: Colors.blue,
                       onPressed: () {
-                        _userSequence.add(4);
+                        userSequence.add(4);
                         changeOpacity(OpacityColor.blue);
                         Simon.play(SimonColor.blue);
-                        if (_simonSequence.length == _userSequence.length) {
+                        if (simonSequence.length == userSequence.length) {
                           setState(() {
-                            _result = checkSeqeunce();
-                            if (_result)
+                            result = checkSeqeunce();
+                            if (result)
                               nextSequence();
                             else
                               endGame();
@@ -323,6 +301,33 @@ class _SimonState extends State<Simon> {
               kHeightSpacer,
               _button,
               kHeightSpacer,
+              Row(
+                children:[
+                  AnimatedOpacity(
+                    duration: kAnimatedOpacityDuration,
+                    opacity: redOpacity,
+                    child: SimonContainer(
+                      colour: Colors.red,
+                      onPressed: () {
+                        userSequence.add(2);
+                        changeOpacity(OpacityColor.red);
+                        Simon.play(SimonColor.red);
+                        if (simonSequence.length == userSequence.length) {
+                          setState(() {
+                            result = checkSeqeunce();
+                            if (result) {
+                              nextSequence();
+                            }
+                            else {
+                              endGame();
+                            }
+                          });
+                        }
+                      },
+                    ).getDecoration(),
+                  ),
+                ]
+              )
             ],
           ),
         ),
