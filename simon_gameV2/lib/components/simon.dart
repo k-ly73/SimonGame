@@ -213,14 +213,14 @@ class _SimonState extends State<Simon> {
           title: Text('Simon Game'),
         ),
         body: Container(
-          color: Colors.white12,
+          color: Colors.blueGrey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 '${result ? (levelNumber == 0 ? '' : 'Level $levelNumber') : gameLabel}',
                 style: TextStyle(
-                    fontSize: 50.0,
+                    fontSize: 40.0,
                     color: Colors.red,
                     fontWeight: FontWeight.bold),
               ),

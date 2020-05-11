@@ -9,6 +9,8 @@ class SimonContainer {
 
   Container getDecoration() {
     return Container(
+      width: 100.0,
+      height: 100.0,
       decoration: BoxDecoration(
         borderRadius: radius,
         color: colour,
@@ -18,8 +20,6 @@ class SimonContainer {
         child: null,
         onPressed: onPressed,
       ),
-      width: 80.0,
-      height: 80.0,
     );
   }
 }
