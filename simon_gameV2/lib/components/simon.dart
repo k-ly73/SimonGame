@@ -212,7 +212,7 @@ class _SimonState extends State<Simon> {
           title: Text('Simon Game'),
         ),
         body: Container(
-          color: Colors.white,
+          color: Colors.white12,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -248,7 +248,6 @@ class _SimonState extends State<Simon> {
                       },
                     ).getDecoration(),
                   ),
-                  kWidthSpacer,
                 ],
               ),
               kHeightSpacer,
@@ -299,10 +298,9 @@ class _SimonState extends State<Simon> {
                 ],
               ),
               kHeightSpacer,
-              _button,
-              kHeightSpacer,
-              Row(
-                children:[
+              Row (
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                   AnimatedOpacity(
                     duration: kAnimatedOpacityDuration,
                     opacity: redOpacity,
@@ -326,8 +324,12 @@ class _SimonState extends State<Simon> {
                       },
                     ).getDecoration(),
                   ),
-                ]
-              )
+                ],
+                
+              ),
+              kHeightSpacer,
+              _button,
+              kHeightSpacer,
             ],
           ),
         ),

@@ -5,8 +5,12 @@ const kHeightSpacer = const SizedBox(
 );
 
 const kWidthSpacer = const SizedBox(
-  width: 30.0,
+  width: 120.0,
 );
+
+// const kWidthLarge = const SizedBox(
+//   width: 150.0,
+// );
 
 const kAnimatedOpacityDuration = const Duration(milliseconds: 200);
 
