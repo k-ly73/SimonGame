@@ -8,8 +8,16 @@ class Button {
   Widget getButton() {
     return Container(
       child: RaisedButton(
-        splashColor: Colors.white,
-        child: Text(buttonLabel),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        color: Colors.black,
+        child: Text(
+          buttonLabel,
+          style: TextStyle(
+            color: Colors.white
+          )
+        ),
         onPressed: onPressed,
         elevation: 2.0,
       ),

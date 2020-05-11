@@ -30,7 +30,7 @@ class _SimonState extends State<Simon> {
   String gameLabel = '';
   List<int> simonSequence = [];
   List<int> userSequence = [];
-  Widget _button;
+  Widget button;
 
   @override
   void initState() {
@@ -48,23 +48,24 @@ class _SimonState extends State<Simon> {
 
   void getStartStopButton() {
     if (levelNumber == 0) {
-      _button = Button(
-          buttonLabel: 'Start Game',
-          onPressed: () {
-            setState(() {
-              result = true;
-              levelNumber = levelNumber + 1;
-              gameLabel = 'Level $levelNumber';
-              userSequence.clear();
-              simonSequence.add(Math.Random().nextInt(4) + 1);
-              playSequence(simonSequence);
-              getStartStopButton();
-            });
-          }).getButton();
+      button = Button(
+        buttonLabel: 'Start Game',
+        onPressed: () {
+          setState(() {
+            result = true;
+            levelNumber = levelNumber + 1;
+            gameLabel = 'Level $levelNumber';
+            userSequence.clear();
+            simonSequence.add(Math.Random().nextInt(4) + 1);
+            playSequence(simonSequence);
+            getStartStopButton();
+          });
+        }
+      ).getButton();
     } 
     else if (levelNumber > 0) 
     {
-      _button = Button(
+      button = Button(
           buttonLabel: 'Stop Game',
           onPressed: () {
             setState(() {
@@ -87,7 +88,7 @@ class _SimonState extends State<Simon> {
           greenOpacity = greenOpacity == 1.0 ? 0.0 : 1.0;
         });
 
-        Future.delayed(kDelayedOpacityDuration, () {
+        Future.delayed(Duration(milliseconds: 100), () {
           setState(() {
             greenOpacity = greenOpacity == 0.0 ? 1.0 : 0.0;
           });
@@ -98,7 +99,7 @@ class _SimonState extends State<Simon> {
           redOpacity = redOpacity == 1.0 ? 0.0 : 1.0;
         });
 
-        Future.delayed(kDelayedOpacityDuration, () {
+        Future.delayed(Duration(milliseconds: 100), () {
           setState(() {
             redOpacity = redOpacity == 0.0 ? 1.0 : 0.0;
           });
@@ -109,7 +110,7 @@ class _SimonState extends State<Simon> {
           yellowOpacity = yellowOpacity == 1.0 ? 0.0 : 1.0;
         });
 
-        Future.delayed(kDelayedOpacityDuration, () {
+        Future.delayed(Duration(milliseconds: 100), () {
           setState(() {
             yellowOpacity = yellowOpacity == 0.0 ? 1.0 : 0.0;
           });
@@ -120,7 +121,7 @@ class _SimonState extends State<Simon> {
           blueOpacity = blueOpacity == 1.0 ? 0.0 : 1.0;
         });
 
-        Future.delayed(kDelayedOpacityDuration, () {
+        Future.delayed(Duration(milliseconds: 100), () {
           setState(() {
             blueOpacity = blueOpacity == 0.0 ? 1.0 : 0.0;
           });
@@ -223,12 +224,12 @@ class _SimonState extends State<Simon> {
                     color: Colors.red,
                     fontWeight: FontWeight.bold),
               ),
-              kHeightSpacer,
+              heightSpacer,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AnimatedOpacity(
-                    duration: kAnimatedOpacityDuration,
+                    duration: Duration(milliseconds: 100),
                     opacity: greenOpacity,
                     child: SimonContainer(
                       colour: Colors.green,
@@ -250,12 +251,12 @@ class _SimonState extends State<Simon> {
                   ),
                 ],
               ),
-              kHeightSpacer,
+              heightSpacer,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AnimatedOpacity(
-                    duration: kAnimatedOpacityDuration,
+                    duration: Duration(milliseconds: 100),
                     opacity: yellowOpacity,
                     child: SimonContainer(
                       colour: Colors.yellow,
@@ -273,9 +274,9 @@ class _SimonState extends State<Simon> {
                       },
                     ).getDecoration(),
                   ),
-                  kWidthSpacer,
+                  widthSpacer,
                   AnimatedOpacity(
-                    duration: kAnimatedOpacityDuration,
+                    duration: Duration(milliseconds: 100),
                     opacity: blueOpacity,
                     child: SimonContainer(
                       colour: Colors.blue,
@@ -297,12 +298,12 @@ class _SimonState extends State<Simon> {
                   ),
                 ],
               ),
-              kHeightSpacer,
+              heightSpacer,
               Row (
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AnimatedOpacity(
-                    duration: kAnimatedOpacityDuration,
+                    duration: Duration(milliseconds: 100),
                     opacity: redOpacity,
                     child: SimonContainer(
                       colour: Colors.red,
@@ -327,9 +328,9 @@ class _SimonState extends State<Simon> {
                 ],
                 
               ),
-              kHeightSpacer,
-              _button,
-              kHeightSpacer,
+              heightSpacer,
+              button,
+              heightSpacer,
             ],
           ),
         ),
