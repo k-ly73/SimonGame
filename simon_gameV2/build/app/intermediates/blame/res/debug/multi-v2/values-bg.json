@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\kevin\\Documents\\GitHub\\SimonGame\\simon_gameV2\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-bg\\values-bg.xml",
+            "outputFile": "/Users/JensonTran/flutter-workspace/SimonGame/simon_gameV2/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-bg/values-bg.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.1.0.aar\\69278c3d64a28f93593d3cb2f73fccb9\\res\\values-bg\\values-bg.xml",
+                    "source": "/Users/JensonTran/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/56fde3ec3077190f2a93fd569f5ffd25/res/values-bg/values-bg.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

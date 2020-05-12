@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SimonContainer {
-  SimonContainer({@required this.colour, @required this.onPressed});
+  SimonContainer({@required this.colour, @required this.onPressed,@required this.getNum});
   final Color colour;
   final Function onPressed;
+  final Text getNum;
 
   final radius = BorderRadius.all(Radius.circular(60.0));
 
@@ -17,7 +18,7 @@ class SimonContainer {
       ),
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: radius),
-        child: null,
+        child: getNum,
         onPressed: onPressed,
       ),
     );

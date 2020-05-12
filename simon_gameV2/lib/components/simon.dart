@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'simonContainer.dart';
-import 'simonColor.dart';
 import 'button.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:simon/utilities/constants.dart';
 import 'dart:math' as Math;
 import 'dart:async';
-
 
 class Simon extends StatefulWidget {
   static final AudioCache player = AudioCache();
@@ -19,8 +16,18 @@ class Simon extends StatefulWidget {
   _SimonState createState() => _SimonState();
 }
 
+class SimonColor {
+  static const green = 'green';
+  static const red = 'red';
+  static const yellow = 'yellow';
+  static const blue = 'blue';
+}
+
 class _SimonState extends State<Simon> {
   int levelNumber = 0;
+  int simonIterator = 0;
+  int userIterator = 1;
+  int userChosen;
   double greenOpacity = 1.0;
   double redOpacity = 1.0;
   double yellowOpacity = 1.0;
@@ -28,7 +35,7 @@ class _SimonState extends State<Simon> {
   bool result = false;
 
   String gameLabel = '';
-  List<int> simonSequence = [];
+  List<int> simon = [];
   List<int> userSequence = [];
   Widget button;
 
@@ -36,7 +43,7 @@ class _SimonState extends State<Simon> {
   void initState() {
     super.initState();
     Simon.player.loadAll(
-      ['blue.mp3', 'yellow.mp3', 'green.mp3', 'red.mp3', 'wrong.mp3']);
+        ['blue.mp3', 'yellow.mp3', 'green.mp3', 'red.mp3', 'wrong.mp3']);
     getStartStopButton();
   }
 
@@ -49,31 +56,27 @@ class _SimonState extends State<Simon> {
   void getStartStopButton() {
     if (levelNumber == 0) {
       button = Button(
-        buttonLabel: 'Start Game',
-        onPressed: () {
-          setState(() {
-            result = true;
-            levelNumber = levelNumber + 1;
-            gameLabel = 'Level $levelNumber';
-            userSequence.clear();
-            simonSequence.add(Math.Random().nextInt(4) + 1);
-            playSequence(simonSequence);
-            getStartStopButton();
-          });
-        }
-      ).getButton();
-    } 
-    else if (levelNumber > 0) 
-    {
+          buttonLabel: 'Start Game',
+          onPressed: () {
+            setState(() {
+              result = true;
+              levelNumber = levelNumber + 1;
+              gameLabel = 'Level $levelNumber';
+              userSequence.clear();
+              simon.add(Math.Random().nextInt(4) + 1);
+              playSequence(simon);
+              getStartStopButton();
+            });
+          }).getButton();
+    } else if (levelNumber > 0) {
       button = Button(
           buttonLabel: 'Stop Game',
           onPressed: () {
             setState(() {
-              stopSequence();
               result = false;
               levelNumber = 0;
               gameLabel = '';
-              simonSequence.clear();
+              simon.clear();
               userSequence.clear();
               getStartStopButton();
             });
@@ -156,47 +159,27 @@ class _SimonState extends State<Simon> {
     }
   }
 
-  void stopSequence() {
-    
-  }
-
   void nextSequence() {
     setState(() {
       userSequence.clear();
       result = true;
       levelNumber++;
-      simonSequence.add(Math.Random().nextInt(4) + 1);
+      simon.add(Math.Random().nextInt(4) + 1);
     });
 
     Future.delayed(Duration(seconds: 1), () {
-      playSequence(simonSequence);
+      playSequence(simon);
     });
-  }
-
-  bool checkSeqeunce() {
-    int count = 0;
-    for (var sq in simonSequence) {
-      for (var i = count; i < userSequence.length;) {
-        if (sq != userSequence[i]) {
-          return false;
-        } 
-        else 
-        {
-          count++;
-          break;
-        }
-      }
-      continue;
-    }
-    return true;
   }
 
   void endGame() {
     setState(() {
       result = false;
       levelNumber = 0;
+      simonIterator = 0;
+      userIterator = 1;
       gameLabel = 'Game Over';
-      simonSequence.clear();
+      simon.clear();
       userSequence.clear();
       getStartStopButton();
     });
@@ -233,17 +216,28 @@ class _SimonState extends State<Simon> {
                     opacity: greenOpacity,
                     child: SimonContainer(
                       colour: Colors.green,
+                      getNum: Text(
+                        '1',
+                        textScaleFactor: 2,
+                      ),
                       onPressed: () {
-                        userSequence.add(1);
+                        userChosen = 1;
                         changeOpacity(OpacityColor.green);
                         Simon.play(SimonColor.green);
-                        if (simonSequence.length == userSequence.length) {
-                          setState(() {
-                            result = checkSeqeunce();
-                            if (result)
+                        if (simon[simonIterator] == userChosen) {
+                          if (simon.length == userIterator) {
+                            setState(() {
+                              simonIterator = 0;
+                              userIterator = 1;
                               nextSequence();
-                            else
-                              endGame();
+                            });
+                          } else {
+                            userIterator++;
+                            simonIterator++;
+                          }
+                        } else {
+                          setState(() {
+                            endGame();
                           });
                         }
                       },
@@ -260,16 +254,30 @@ class _SimonState extends State<Simon> {
                     opacity: yellowOpacity,
                     child: SimonContainer(
                       colour: Colors.yellow,
+                      getNum: Text(
+                        '3',
+                        textScaleFactor: 2,
+                      ),
                       onPressed: () {
                         userSequence.add(3);
+                        userChosen = 3;
                         changeOpacity(OpacityColor.yellow);
                         Simon.play(SimonColor.yellow);
-                        if (simonSequence.length == userSequence.length) {
-                          result = checkSeqeunce();
-                          if (result)
-                            nextSequence();
-                          else
+                        if (simon[simonIterator] == userChosen) {
+                          if (simon.length == userIterator) {
+                            setState(() {
+                              simonIterator = 0;
+                              userIterator = 1;
+                              nextSequence();
+                            });
+                          } else {
+                            userIterator++;
+                            simonIterator++;
+                          }
+                        } else {
+                          setState(() {
                             endGame();
+                          });
                         }
                       },
                     ).getDecoration(),
@@ -280,17 +288,28 @@ class _SimonState extends State<Simon> {
                     opacity: blueOpacity,
                     child: SimonContainer(
                       colour: Colors.blue,
+                      getNum: Text(
+                        '4',
+                        textScaleFactor: 2,
+                      ),
                       onPressed: () {
-                        userSequence.add(4);
+                        userChosen = 4;
                         changeOpacity(OpacityColor.blue);
                         Simon.play(SimonColor.blue);
-                        if (simonSequence.length == userSequence.length) {
-                          setState(() {
-                            result = checkSeqeunce();
-                            if (result)
+                        if (simon[simonIterator] == userChosen) {
+                          if (simon.length == userIterator) {
+                            setState(() {
+                              simonIterator = 0;
+                              userIterator = 1;
                               nextSequence();
-                            else
-                              endGame();
+                            });
+                          } else {
+                            userIterator++;
+                            simonIterator++;
+                          }
+                        } else {
+                          setState(() {
+                            endGame();
                           });
                         }
                       },
@@ -299,7 +318,7 @@ class _SimonState extends State<Simon> {
                 ],
               ),
               heightSpacer,
-              Row (
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   AnimatedOpacity(
@@ -307,26 +326,34 @@ class _SimonState extends State<Simon> {
                     opacity: redOpacity,
                     child: SimonContainer(
                       colour: Colors.red,
+                      getNum: Text(
+                        '2',
+                        textScaleFactor: 2,
+                      ),
                       onPressed: () {
-                        userSequence.add(2);
+                        userChosen = 2;
                         changeOpacity(OpacityColor.red);
                         Simon.play(SimonColor.red);
-                        if (simonSequence.length == userSequence.length) {
-                          setState(() {
-                            result = checkSeqeunce();
-                            if (result) {
+                        if (simon[simonIterator] == userChosen) {
+                          if (simon.length == userIterator) {
+                            setState(() {
+                              simonIterator = 0;
+                              userIterator = 1;
                               nextSequence();
-                            }
-                            else {
-                              endGame();
-                            }
+                            });
+                          } else {
+                            userIterator++;
+                            simonIterator++;
+                          }
+                        } else {
+                          setState(() {
+                            endGame();
                           });
                         }
                       },
                     ).getDecoration(),
                   ),
                 ],
-                
               ),
               heightSpacer,
               button,
@@ -337,5 +364,4 @@ class _SimonState extends State<Simon> {
       ),
     );
   }
-
 }
