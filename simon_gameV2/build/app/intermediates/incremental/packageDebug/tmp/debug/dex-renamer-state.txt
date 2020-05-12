@@ -1,4 +1,0 @@
-#Mon May 11 19:14:02 PDT 2020
-base.0=/Users/JensonTran/flutter-workspace/SimonGame/simon_gameV2/build/app/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
-renamed.0=classes.dex
