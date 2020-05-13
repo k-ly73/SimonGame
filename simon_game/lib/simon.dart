@@ -185,6 +185,26 @@ class _SimonSaysState extends State<SimonSays> {
     });
   }
 
+  void infoDialog(BuildContext context) {
+    var alertDialog = AlertDialog(
+      title: Text("How To Play Simon Says"),
+      content: Text("Follow Simon's lead by pressing correct buttons"),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("OK"),
+          onPressed:(){}
+        )
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -193,6 +213,9 @@ class _SimonSaysState extends State<SimonSays> {
           centerTitle: true,
           backgroundColor: Colors.purple,
           title: Text('Simon Says Game'),
+          actions: <Widget>[
+            
+          ],
         ),
         body: Container(
           color: Colors.blueGrey,
