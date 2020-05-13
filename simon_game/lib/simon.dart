@@ -202,9 +202,10 @@ class _SimonSaysState extends State<SimonSays> {
               Text(
                 '${result ? (levelNumber == 0 ? '' : 'Level $levelNumber') : gameLabel}',
                 style: TextStyle(
-                    fontSize: 40.0,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold),
+                  fontFamily: 'cursive',
+                  fontSize: 40.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
               ),
               heightSpacer,
               Row(
@@ -235,12 +236,14 @@ class _SimonSaysState extends State<SimonSays> {
                               userIterator++;
                               simonIterator++;
                             }
-                          } else {
+                          } 
+                          else {
                             setState(() {
                               endGame();
                             });
                           }
-                        }else{
+                        }
+                        else {
                           setState(() {
                             displayNullSeq();
                           });
@@ -284,7 +287,8 @@ class _SimonSaysState extends State<SimonSays> {
                               endGame();
                             });
                           }
-                        }else{
+                        }
+                        else {
                           setState(() {
                             displayNullSeq();
                           });
