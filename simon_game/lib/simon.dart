@@ -427,7 +427,7 @@ class _HomepageState extends State<Homepage> {
         child: PopupContent(
           content: Scaffold(
             appBar: AppBar(
-              title: Text('Name of your butt'),
+              title: Text('Information'),
               leading: new Builder(builder: (context) {
                 return IconButton(
                   icon: Icon(Icons.arrow_back),
@@ -455,13 +455,16 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                 child: Text(
-                  "TLDR:",
+                  "How To Play Simon Says",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                  child: AutoSizeText("Butthole"))
+                  child: AutoSizeText(
+                    "Follow Simon by pressing the correct buttons to match his sequence! "
+                    "Finish as many levels as possible"
+                    ))
             ]
         )
     );
